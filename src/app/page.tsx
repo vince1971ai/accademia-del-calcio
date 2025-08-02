@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -114,3 +115,6 @@ export default function Home() {
   if (loading || !user) {
     return <FullScreenLoader />;
   }
+
+  return <MainApp />;
+}
