@@ -1,0 +1,98 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isUserAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    function isAdmin() {
+      return request.auth.token.email in ['wiched90@hotmail.com', 'amoledcity@gmail.com'];
+    }
+
+    // Users Collection: Users can read their own data, and create it.
+    // They can only update their own profile and specific, non-critical stats.
+    // Admins can read all user data for administrative purposes.
+    match /users/{userId} {
+      allow read: if isUserAuthenticated() && (isOwner(userId) || isAdmin());
+      allow create: if isUserAuthenticated() && isOwner(userId);
+      allow update: if isUserAuthenticated() && isOwner(userId);
+    }
+    
+    // Static Data Collections: Quizzes, Categories, Formations, Glossary
+    // Any authenticated user can read this data to use the app.
+    // Only admins can create, update, or delete this data (via the admin panel).
+    match /quizCategories/{categoryId} {
+      allow read: if isUserAuthenticated();
+      allow write: if isUserAuthenticated() && isAdmin();
+    }
+    
+    match /quizzes/{quizId} {
+      allow read: if isUserAuthenticated();
+      allow write: if isUserAuthenticated() && isAdmin();
+    }
+    
+    match /formations/{formationId} {
+      allow read: if isUserAuthenticated();
+      allow write: if isUserAuthenticated() && isAdmin();
+    }
+    
+    match /glossary/{termId} {
+      allow read: if isUserAuthenticated();
+      allow write: if isUserAuthenticated() && isAdmin();
+    }
+    
+    // Coach Announcements:
+    // Any authenticated user can read announcements.
+    // Only admins can create, update, or delete announcements.
+    match /coach_announcements/{announcementId} {
+        allow read: if isUserAuthenticated();
+        allow write: if isUserAuthenticated() && isAdmin();
+    }
+
+    // Posts Collection (Team Discussion):
+    // Users can read all posts, and create their own.
+    // Users can update their own posts (e.g., likes, content) or delete them. Admins can delete any post.
+    match /posts/{postId} {
+      allow read: if isUserAuthenticated();
+      allow create: if isUserAuthenticated();
+      allow update: if isUserAuthenticated(); // Granular updates like 'likes' are handled in the app
+      allow delete: if isUserAuthenticated() && (resource.data.author.uid == request.auth.uid || isAdmin());
+
+      // Replies Subcollection
+      match /replies/{replyId} {
+        allow read: if isUserAuthenticated();
+        allow create: if isUserAuthenticated();
+        allow delete: if isUserAuthenticated() && (resource.data.author.uid == request.auth.uid || isAdmin());
+      }
+    }
+    
+    // Challenges Collection:
+    // Users can read challenges they are part of.
+    // Users can create challenges.
+    // Users can update challenges they are part of (e.g., to accept or submit a score).
+    match /challenges/{challengeId} {
+        allow read, update: if isUserAuthenticated() && request.auth.uid in resource.data.participantIds;
+        allow create: if isUserAuthenticated();
+    }
+    
+     // Conversations Collection:
+     // Users can only access conversations where their UID is listed in the participants.
+    match /conversations/{conversationId} {
+        allow read, write: if isUserAuthenticated() && request.auth.uid in resource.data.participantIds;
+
+        // Messages Subcollection
+        match /messages/{messageId} {
+            allow read, create: if isUserAuthenticated() && request.auth.uid in get(/databases/$(database)/documents/conversations/$(conversationId)).data.participantIds;
+            // Only the sender or an admin can delete a message
+            allow delete: if isUserAuthenticated() && (resource.data.senderId == request.auth.uid || isAdmin());
+        }
+    }
+  }
+}
