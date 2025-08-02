@@ -114,6 +114,3 @@ export default function Home() {
   if (loading || !user) {
     return <FullScreenLoader />;
   }
-
-  return <MainApp />;
-}
