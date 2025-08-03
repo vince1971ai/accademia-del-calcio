@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Flame, Scale, Shield, LayoutGrid, CheckCircle2, AlertTriangle, Trophy, Star, ClipboardList, Lightbulb } from 'lucide-react';
 import type { Formation, FormationStyle } from '@/lib/tactics-data';
-import { SoccerField } from '../soccer-field';
+import { SoccerField } from '@/components/soccer-field';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { Spinner } from '../loader';

@@ -7,7 +7,7 @@
  */
 
 import { z } from 'genkit';
-import { quizCategoriesData, quizzesData } from '@/lib/quiz-data-import';
+import { quizCategoriesData, quizzesData } from '../../lib/quiz-data-import';
 
 const QuizDataSchema = z.object({
   categories: z.any(),

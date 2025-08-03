@@ -7,7 +7,7 @@
  */
 
 import { z } from 'genkit';
-import { glossaryData } from '@/lib/glossary-data';
+import { glossaryData } from '../../lib/glossary-data';
 
 const GlossaryDataSchema = z.object({
   glossary: z.any(),

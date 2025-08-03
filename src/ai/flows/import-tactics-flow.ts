@@ -7,7 +7,7 @@
  */
 
 import { z } from 'genkit';
-import { formationsData } from '@/lib/tactics-data-import';
+import { formationsData } from '../../lib/tactics-data-import';
 
 const TacticsDataSchema = z.object({
   formations: z.any(),
