@@ -3,7 +3,8 @@ import {getAuth, GoogleAuthProvider} from 'firebase/auth';
 import {getFirestore} from 'firebase/firestore';
 import { getStorage } from "firebase/storage";
 
-const firebaseConfig = {
+// Configurazione corretta e forzata per Accademia del Calcio
+const firebaseConfig: FirebaseOptions = {
   apiKey: "AIzaSyB5fGichZFydGTgcJcAy6GRjjN__XtMYCg",
   authDomain: "accademia-del-calcio-8b229.firebaseapp.com",
   projectId: "accademia-del-calcio-8b229",
