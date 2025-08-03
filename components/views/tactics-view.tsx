@@ -11,7 +11,7 @@ import type { Formation, FormationStyle } from '@/lib/tactics-data';
 import { SoccerField } from '@/components/soccer-field';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { Spinner } from '../loader';
+import { Spinner } from '@/components/loader';
 
 
 // Custom Hook to fetch formations
