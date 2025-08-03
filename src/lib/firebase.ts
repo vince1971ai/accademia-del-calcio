@@ -3,15 +3,14 @@ import {getAuth, GoogleAuthProvider} from 'firebase/auth';
 import {getFirestore} from 'firebase/firestore';
 import { getStorage } from "firebase/storage";
 
-// Configurazione corretta e forzata per Accademia del Calcio
+// Configurazione per il progetto originale Goal Getter
 const firebaseConfig: FirebaseOptions = {
-  apiKey: "AIzaSyB5fGichZFydGTgcJcAy6GRjjN__XtMYCg",
-  authDomain: "accademia-del-calcio-8b229.firebaseapp.com",
-  projectId: "accademia-del-calcio-8b229",
-  storageBucket: "accademia-del-calcio-8b229.appspot.com",
-  messagingSenderId: "589870953259",
-  appId: "1:589870953259:web:3d8e1e71e8c94f5a888b6e",
-  measurementId: "G-NGCK00HRCV"
+    apiKey: "AIzaSyDr-GqAmHkR4n36Y9jG5dE1B5z3c_c8vXc",
+    authDomain: "goal-getter-nkpvt.firebaseapp.com",
+    projectId: "goal-getter-nkpvt",
+    storageBucket: "goal-getter-nkpvt.appspot.com",
+    messagingSenderId: "370124898302",
+    appId: "1:370124898302:web:90b7915c3905531d06180b"
 };
 
 
